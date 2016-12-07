@@ -11,13 +11,12 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
-  // Initialise all values and vectors
-
-  unsigned nReactions = 2;
-  unsigned nRuns = 100;
   unsigned N = 10;
+  unsigned nReactions = 2;
+  unsigned nRuns = atoi(argv[1]);
+
   
   vector<double> a(nReactions);  // Propensity value storage for each reaction
   double a0;  // Propensity sum
