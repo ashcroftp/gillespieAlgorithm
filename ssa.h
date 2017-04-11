@@ -21,6 +21,12 @@ class SSA
 
   // Execute the SSA algorithm, using index for something...
   void compute(unsigned& runIndex);
+
+  // Evaluate propensity functions
+  std::vector<double> get_propensities(std::vector<unsigned>& x);
+
+  // Determine which reaction has fired
+  unsigned get_reaction(std::vector<double>& a, double& r);
   
   int foo();
 };

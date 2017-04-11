@@ -18,10 +18,7 @@ int main(int argc, char* argv[])
 {
   SSA ssa;
 
-  cout << ssa.foo() << endl;
-
   unsigned kk = 3;
-
   ssa.compute(kk);
   
   return 0;
