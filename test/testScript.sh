@@ -1,6 +1,6 @@
 #!/bin/bash
 
-N=$1
+N=100000
 
 echo
 echo Timing for $N runs
