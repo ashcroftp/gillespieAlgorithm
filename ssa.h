@@ -5,7 +5,7 @@
 #define __SSA_H_INCLUDED__ 
 //=========================================
 // Dependencies
-#include <iostream>
+#include <iostream>  // remove?
 #include <vector>
 #include <random>
 //=========================================
@@ -19,6 +19,8 @@ class SSA
   // Constructor
  SSA() : bar(4) {};
 
+  int foo();
+  
   // Execute the SSA algorithm, using index for something...
   void compute(unsigned& runIndex);
 
@@ -28,7 +30,8 @@ class SSA
   // Determine which reaction has fired
   unsigned get_reaction(std::vector<double>& a, double& r);
   
-  int foo();
+  std::vector<unsigned> update_population(unsigned& reaction_, std::vector<unsigned>& x_);
+  
 };
 
 #endif 

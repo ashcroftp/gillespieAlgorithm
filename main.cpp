@@ -1,15 +1,16 @@
 // main.cpp
 
-#include <cmath>
-#include <cstdlib>
-#include <ctime>
+// #include <cmath>
+// #include <cstdlib>
+// #include <ctime>
 #include <iostream>
-#include <fstream>
+// #include <fstream>
 #include <vector>
-#include <random>
+// #include <random>
 
 #include "ssa.h"
-#include "myProcess.h"
+#include "model.h"
+//#include "myProcess.h"
 
 using namespace std;
 
@@ -20,6 +21,6 @@ int main(int argc, char* argv[])
 
   unsigned kk = 3;
   ssa.compute(kk);
-  
+
   return 0;
 }

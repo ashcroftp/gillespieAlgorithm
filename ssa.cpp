@@ -15,16 +15,16 @@ void SSA::compute(unsigned& runIndex)
 
   // Initialise the variables
   // vector<unsigned> x = get_initial_condition()
-  vector<unsigned> x  = { 50, 38 };
+  vector<unsigned> x  = { 50, 50 };
 
   unsigned N = x[0] + x[1];
   
   double t = 0.0;
 
-  mt19937 mt_rand( time(NULL) );                              // Initialise RNG using seed
+  mt19937 mt_rand( time(NULL) ); // Initialise RNG using seed
   uniform_real_distribution<double> dist(1.0e-9,1.0); // We want RNs in (0,1]
 
-  vector<double> r(2);                                // Variables to store random numbers, time step and fired reaction
+  vector<double> r(2); // Variables to store random numbers, time step and fired reaction
   vector<double> a(2+1);
   double tau,sum;
   unsigned mu;
@@ -35,7 +35,8 @@ void SSA::compute(unsigned& runIndex)
       r[0] = dist(mt_rand);
       r[1] = dist(mt_rand);
 	        
-      
+      // Calculate propensity functions
+      // Here a[0] = \sum_{i=1}^m a[m]
       a = get_propensities(x);
       
       // Calculate time step
@@ -45,8 +46,7 @@ void SSA::compute(unsigned& runIndex)
       mu = get_reaction(a, r[1]);
 
       // Update population
-      if( mu == 1 ) {x[0]++; x[1]--;}
-      else {x[0]--; x[1]++;}
+      x = update_population(mu, x);
 
       // Update time
       t += tau;
@@ -55,6 +55,7 @@ void SSA::compute(unsigned& runIndex)
 
   cout << t << "\t" << x[0] << "\t" << x[1] << endl;
 }
+
 
 // Evaluate propensity functions
 vector<double> SSA::get_propensities(vector<unsigned>& x)
@@ -83,4 +84,22 @@ unsigned SSA::get_reaction(vector<double>& a, double& r)
     }
   
   return(mu);
+}
+
+// Update population based on reaction mu
+vector<unsigned> SSA::update_population(unsigned& reaction_, vector<unsigned>& x_)
+{
+  unsigned n = x_.size();
+  vector<unsigned> x_new(n);
+  
+  vector<int> delta_x;
+  if(reaction_ == 1) delta_x = {+1, -1};
+  else delta_x = {-1, +1};
+
+  for(unsigned i = 0; i < n; ++i) {x_new[i] = x_[i] + delta_x[i];}
+  
+  //if( mu_ == 1 ) {x[0]++; x[1]--;}
+  //else {x[0]--; x[1]++;}
+
+  return(x_new);
 }
