@@ -38,11 +38,11 @@ double Model::reaction_rates(unsigned& reaction_, vector<unsigned>& x_)
 {
   switch(reaction_)
     {
-    case 1 :
+    case 0 :
       return (double)x_[0] * (double)x_[1] / (double)N;
       break;
 
-    case 2 :
+    case 1 :
       return (double)x_[0] * (double)x_[1] / (double)N;
       break;
 
@@ -54,14 +54,8 @@ double Model::reaction_rates(unsigned& reaction_, vector<unsigned>& x_)
 
 
 //=========================================
-// Access functions
+// Access functions -- do not edit!
 //=========================================
-
-// Access each stoichiometric vector
-vector<int> Model::get_stoichiometric_vector(unsigned& reaction_)
-{
-  return(Stoichiometric_matrix[reaction_]);
-}
 
 // Access initial condition
 vector<unsigned> Model::get_initial_condition()
@@ -69,52 +63,9 @@ vector<unsigned> Model::get_initial_condition()
   return(Initial_condition);
 }
 
-// Return vector of reaction rates, with a[0] being the sum
-vector<double> Model::get_reaction_rates(vector<unsigned>& x_)
+
+// Access each stoichiometric vector
+vector<int> Model::get_stoichiometric_vector(unsigned& reaction_)
 {
-  vector<double> rates(nreactions + 1);
-  for(unsigned i = 1; i <= nreactions; ++i)
-    {
-      rates[i] = reaction_rates(i, x_);
-    }
-  // Sum all propensities to return a[0]
-  rates[0] = 0.0;
-  for(unsigned i = 1; i <= nreactions; ++i) rates[0] += rates[i];
-
-  return(rates);
-}
-
-//=========================================
-// Functions related to the algorithm
-//=========================================
-
-
-// Determine which reaction has fired
-unsigned Model::choose_reaction(vector<double>& rates_, double& rand_)
-{
-  unsigned mu;
-  double sum = 0.0;
-  for(unsigned m = 1; m <= nreactions; ++m)
-    {
-      sum += rates_[m];
-      if(sum > rates_[0] * rand_){mu = m - 1; break;}
-    }
-  
-  return(mu);
-}
-
-
-
-
-
-// Update population based on reaction mu
-vector<unsigned> Model::update_population(unsigned& reaction_, vector<unsigned>& x_)
-{
-  vector<unsigned> x_new(nspecies);
-  
-  vector<int> delta_x = get_stoichiometric_vector(reaction_);
-
-  for(unsigned i = 0; i < nspecies; ++i) x_new[i] = x_[i] + delta_x[i];
-
-  return(x_new);
+  return(Stoichiometric_matrix[reaction_]);
 }

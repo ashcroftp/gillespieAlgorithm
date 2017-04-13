@@ -7,34 +7,30 @@ using namespace std;
 // Execute the SSA algorithm, using index for something...
 void SSA::compute(unsigned runIndex)
 {  
-  // Initialise the variables
-  // vector<unsigned> x = get_initial_condition()
-  vector<unsigned> x  = { 50, 50 };
-
-  unsigned N = x[0] + x[1];
-  
+  // Initialise the variables and time
+  vector<unsigned> x = MyModel.get_initial_condition(); 
   double t = 0.0;
 
-  double rn; // Variables to store random numbers, time step and fired reaction
-  vector<double> a(2+1);
-  double tau,sum;
+  // Declare variable used in algoritm
+  double rn,tau;
+  vector<double> a(MyModel.nreactions+1);
   unsigned mu;
-
-  while(x[0] > 0 && x[0] < N)  // Loop over timesteps until fixation
+  
+  while(x[0] > 0 && x[0] < MyModel.N)  // Loop over timesteps until fixation
     {	        
       // Calculate propensity functions
-      // Here a[0] = \sum_{i=1}^m a[m]
-      a = get_propensities(x);
+      // Here a[nreactions] = \sum_i a[i]
+      a = get_reaction_rates(x);
 
       // Determine which reaction channel has fired
       rn = MyRNG.rand_uni();
-      mu = get_reaction(a, rn);
+      mu = choose_reaction(a, rn);
 
       // Update population
       x = update_population(mu, x);
 
       // Update time
-      tau = MyRNG.rand_exp(a[0]);
+      tau = MyRNG.rand_exp(a[MyModel.nreactions]);
       t += tau;
       
     }// End of loop over timesteps
@@ -44,29 +40,38 @@ void SSA::compute(unsigned runIndex)
 
 
 // Evaluate propensity functions
-vector<double> SSA::get_propensities(vector<unsigned>& x)
+vector<double> SSA::get_reaction_rates(vector<unsigned>& x_)
 {
-  unsigned N = x[0] + x[1];
+  vector<double> rates(MyModel.nreactions + 1);
   
-  vector<double> a(2+1);
-  a[1] = (double)x[0] * (double)x[1] / (double)N;
-  a[2] = (double)x[0] * (double)x[1] / (double)N;
-
-  a[0] = 0.0;
-  for(unsigned i=1; i<=2; ++i) a[0] += a[i];
+  for(unsigned i = 0; i < MyModel.nreactions; ++i)
+    {
+      rates[i] = MyModel.reaction_rates(i, x_);
+    }
   
-  return(a);
+  // Sum all propensities to return a[nreactions]
+  rates[MyModel.nreactions] = 0.0;
+  for(unsigned i = 0; i < MyModel.nreactions; ++i)
+    {
+      rates[MyModel.nreactions] += rates[i];
+    }
+  
+  return(rates);
 }
 
 // Determine which reaction has fired
-unsigned SSA::get_reaction(vector<double>& a, double& r)
+unsigned SSA::choose_reaction(vector<double>& rates_, double& rn_)
 {
   unsigned mu;
   double sum = 0.0;  
-  for(unsigned m=1; m <= 2; ++m)
+  for(unsigned m = 0; m < MyModel.nreactions; ++m)
     {
-      sum += a[m];
-      if(sum > a[0] * r){mu=m;break;}
+      sum += rates_[m];
+      if(sum > rates_[MyModel.nreactions] * rn_)
+	{
+	  mu = m;
+	  break;
+	}
     }
   
   return(mu);
@@ -75,17 +80,14 @@ unsigned SSA::get_reaction(vector<double>& a, double& r)
 // Update population based on reaction mu
 vector<unsigned> SSA::update_population(unsigned& reaction_, vector<unsigned>& x_)
 {
-  unsigned n = x_.size();
-  vector<unsigned> x_new(n);
+  vector<unsigned> x_new(MyModel.nspecies);
   
-  vector<int> delta_x;
-  if(reaction_ == 1) delta_x = {+1, -1};
-  else delta_x = {-1, +1};
+  vector<int> delta_x = MyModel.get_stoichiometric_vector(reaction_);
 
-  for(unsigned i = 0; i < n; ++i) {x_new[i] = x_[i] + delta_x[i];}
-  
-  //if( mu_ == 1 ) {x[0]++; x[1]--;}
-  //else {x[0]--; x[1]++;}
+  for(unsigned i = 0; i < MyModel.nspecies; ++i)
+    {
+      x_new[i] = x_[i] + delta_x[i];
+    }
 
   return(x_new);
 }

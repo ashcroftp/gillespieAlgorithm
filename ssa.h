@@ -28,7 +28,7 @@ class SSA
  SSA(Model& model_) : MyRNG() {MyModel=model_;};
   // Constructor with specific seed and model
  SSA(int seed_, Model& model_) : MyRNG(seed_) {MyModel=model_;};
-  
+
   //=========================================
   // Definitions of access functions
   //=========================================
@@ -39,14 +39,9 @@ class SSA
   //=========================================
   // Definitions of algorithm functions
   //=========================================
-  // Execute the SSA algorithm, using index for something...
-  void compute(unsigned runIndex);
-
-  // Evaluate propensity functions
-  std::vector<double> get_propensities(std::vector<unsigned>& x);
-
-  // Determine which reaction has fired
-  unsigned get_reaction(std::vector<double>& a, double& r);
+  void compute(unsigned runIndex_);
+  std::vector<double> get_reaction_rates(std::vector<unsigned>& x_);
+  unsigned choose_reaction(std::vector<double>& rates_, double& rn_);
   
   std::vector<unsigned> update_population(unsigned& reaction_, std::vector<unsigned>& x_);
   

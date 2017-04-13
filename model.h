@@ -12,7 +12,6 @@
 class Model
 {
  private:
-  int Bar;
   unsigned N;
   unsigned nspecies;
   unsigned nreactions;
@@ -21,8 +20,15 @@ class Model
   
  public:
   // Constructor
- Model() : Bar(99), N(100), nreactions(2), nspecies(2) {};
+ Model() : N(100), nreactions(2), nspecies(2)
+    {
+      set_initial_condition();
+      set_stoichiometry();
+    };
 
+  // Allow the SSA class to see Model private data
+  friend class SSA;
+  
   //=========================================
   // Definitions of functions to be modified
   //=========================================
@@ -33,15 +39,8 @@ class Model
   //=========================================
   // Definitions of access functions
   //=========================================
-  std::vector<int> get_stoichiometric_vector(unsigned& reaction_);
   std::vector<unsigned> get_initial_condition();
-  std::vector<double> get_reaction_rates(std::vector<unsigned>& x_);
+  std::vector<int> get_stoichiometric_vector(unsigned& reaction_);
 
-  //=========================================
-  // Definitions of other functions
-  //=========================================
-  unsigned choose_reaction(std::vector<double>& rates_, double& rand_);
-  std::vector<unsigned> update_population(unsigned& reaction_, std::vector<unsigned>& x_);  
 };
-
 #endif 
