@@ -16,7 +16,7 @@ class Model
   unsigned N;
   unsigned nspecies;
   unsigned nreactions;
-  std::vector< std::vector<int> > Stoichiometric_matrix;
+  std::vector<std::vector<int> > Stoichiometric_matrix;
   std::vector<unsigned> Initial_condition;
   
  public:
@@ -33,7 +33,7 @@ class Model
   //=========================================
   // Definitions of access functions
   //=========================================
-  std::get_stoichiometric_vector(unsigned& reaction_);
+  std::vector<int> get_stoichiometric_vector(unsigned& reaction_);
   std::vector<unsigned> get_initial_condition();
 
   //=========================================

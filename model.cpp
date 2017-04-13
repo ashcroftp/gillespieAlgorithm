@@ -9,7 +9,7 @@ using namespace std;
 //=========================================
 
 // Initial condition for each species
-void set_initial_condition()
+void Model::set_initial_condition()
 {
   // Define
   vector<unsigned> x = {50, 50};
