@@ -8,7 +8,7 @@
 #include <vector>
 //#include <random>
 
-//#include "ssa.h"
+#include "ssa.h"
 //#include "model.h"
 #include "rng.h"
 
@@ -17,31 +17,11 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-  //  SSA ssa;
-
-  //unsigned kk = 3;
-  //ssa.compute(kk);
-
-
-  RNG rng;
-  cout << rng.get_seed() << "\n" << endl;
-
-  cout << rng.rand_uni() << endl;
-  cout << rng.rand_uni() << endl;
-  cout << rng.rand_uni() << endl;
-
-  int seed = rng.get_seed();
-
-  RNG rng2(seed);
-  cout << rng2.get_seed() << "\n" << endl;
-
-  cout << rng2.rand_uni() << endl;
-  cout << rng2.rand_uni() << endl;
-  cout << rng2.rand_uni() << endl;
-
-  cout << "\n" << rng2.rand_exp(10) << endl;
+  SSA ssa;
+  RNG rng = ssa.get_rng();
+  cout << rng.get_seed() << endl;
   
-  //random_device rd;
-  //cout << rd() << endl;
+  ssa.compute(0);
+
   return 0;
 }

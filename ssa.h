@@ -5,6 +5,8 @@
 #define __SSA_H_INCLUDED__ 
 //=========================================
 // Dependencies
+#include "rng.h"
+
 #include <iostream>  // remove?
 #include <vector>
 #include <random>
@@ -13,16 +15,25 @@
 class SSA
 {
  private:
-  int bar;
-
- public:
-  // Constructor
- SSA() : bar(4) {};
-
-  int foo();
+  RNG RanNumGen;
   
+ public:
+  // Constructor (empty -- No RNG seed, so use default)
+ SSA() : RanNumGen() {};
+  // Constructor with specific seed
+ SSA(int seed_) : RanNumGen(seed_) {};
+
+  //=========================================
+  // Definitions of access functions
+  //=========================================
+  RNG get_rng(){return(RanNumGen);};
+
+
+  //=========================================
+  // Definitions of algorithm functions
+  //=========================================
   // Execute the SSA algorithm, using index for something...
-  void compute(unsigned& runIndex);
+  void compute(unsigned runIndex);
 
   // Evaluate propensity functions
   std::vector<double> get_propensities(std::vector<unsigned>& x);

@@ -4,15 +4,9 @@
 
 using namespace std;
 
-int SSA::foo()
-{  
-  return(bar);
-}
-
 // Execute the SSA algorithm, using index for something...
-void SSA::compute(unsigned& runIndex)
-{
-
+void SSA::compute(unsigned runIndex)
+{  
   // Initialise the variables
   // vector<unsigned> x = get_initial_condition()
   vector<unsigned> x  = { 50, 50 };
@@ -21,34 +15,26 @@ void SSA::compute(unsigned& runIndex)
   
   double t = 0.0;
 
-  mt19937 mt_rand( time(NULL) ); // Initialise RNG using seed
-  uniform_real_distribution<double> dist(1.0e-9,1.0); // We want RNs in (0,1]
-
-  vector<double> r(2); // Variables to store random numbers, time step and fired reaction
+  double rn; // Variables to store random numbers, time step and fired reaction
   vector<double> a(2+1);
   double tau,sum;
   unsigned mu;
 
   while(x[0] > 0 && x[0] < N)  // Loop over timesteps until fixation
-    {
-      // Generate 2 uniform random numbers in (0,1]
-      r[0] = dist(mt_rand);
-      r[1] = dist(mt_rand);
-	        
+    {	        
       // Calculate propensity functions
       // Here a[0] = \sum_{i=1}^m a[m]
       a = get_propensities(x);
-      
-      // Calculate time step
-      tau = (1.0 / a[0]) * log(1.0 / r[0]);
 
       // Determine which reaction channel has fired
-      mu = get_reaction(a, r[1]);
+      rn = RanNumGen.rand_uni();
+      mu = get_reaction(a, rn);
 
       // Update population
       x = update_population(mu, x);
 
       // Update time
+      tau = RanNumGen.rand_exp(a[0]);
       t += tau;
       
     }// End of loop over timesteps
