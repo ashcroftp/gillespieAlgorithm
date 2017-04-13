@@ -32,22 +32,23 @@ void Model::set_stoichiometry()
 }
 
 
-// Reaction rates (as a function of x) for each reaction.
+// Reaction rates (as a function of x_) for each reaction.
 // Reactions should be ordered as in the above stoichiometrix matrix
-vector<double> Model::reaction_rates(vector<unsigned>& x_)
-{  
-  vector<double> rates(nreactions + 1);
-  // My two reaction rates
-  rates[1] = (double)x_[0] * (double)x_[1] / (double)N;
-  rates[2] = (double)x_[0] * (double)x_[1] / (double)N;
+double Model::reaction_rates(unsigned& reaction_, vector<unsigned>& x_)
+{
+  switch(reaction_)
+    {
+    case 1 :
+      return (double)x_[0] * (double)x_[1] / (double)N;
+      break;
 
-  // Sum all propensities to return a[0]
-  rates[0] = 0.0;
-  for(unsigned i = 1; i <= nreactions; ++i) rates[0] += rates[i];
+    case 2 :
+      return (double)x_[0] * (double)x_[1] / (double)N;
+      break;
 
-  cout << rates[0] << "\t" << rates[1] << "\t" << rates[2] << endl;
-  
-  return(rates);
+    default :
+      return 0.0;
+    }
 }
 
 
@@ -66,6 +67,21 @@ vector<int> Model::get_stoichiometric_vector(unsigned& reaction_)
 vector<unsigned> Model::get_initial_condition()
 {
   return(Initial_condition);
+}
+
+// Return vector of reaction rates, with a[0] being the sum
+vector<double> Model::get_reaction_rates(vector<unsigned>& x_)
+{
+  vector<double> rates(nreactions + 1);
+  for(unsigned i = 1; i <= nreactions; ++i)
+    {
+      rates[i] = reaction_rates(i, x_);
+    }
+  // Sum all propensities to return a[0]
+  rates[0] = 0.0;
+  for(unsigned i = 1; i <= nreactions; ++i) rates[0] += rates[i];
+
+  return(rates);
 }
 
 //=========================================

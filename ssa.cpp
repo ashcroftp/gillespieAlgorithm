@@ -27,14 +27,14 @@ void SSA::compute(unsigned runIndex)
       a = get_propensities(x);
 
       // Determine which reaction channel has fired
-      rn = RanNumGen.rand_uni();
+      rn = MyRNG.rand_uni();
       mu = get_reaction(a, rn);
 
       // Update population
       x = update_population(mu, x);
 
       // Update time
-      tau = RanNumGen.rand_exp(a[0]);
+      tau = MyRNG.rand_exp(a[0]);
       t += tau;
       
     }// End of loop over timesteps

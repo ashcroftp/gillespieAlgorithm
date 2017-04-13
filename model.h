@@ -28,13 +28,14 @@ class Model
   //=========================================
   void set_initial_condition();
   void set_stoichiometry();
-  std::vector<double> reaction_rates(std::vector<unsigned>& x_);
+  double reaction_rates(unsigned& reaction_, std::vector<unsigned>& x_);
 
   //=========================================
   // Definitions of access functions
   //=========================================
   std::vector<int> get_stoichiometric_vector(unsigned& reaction_);
   std::vector<unsigned> get_initial_condition();
+  std::vector<double> get_reaction_rates(std::vector<unsigned>& x_);
 
   //=========================================
   // Definitions of other functions
