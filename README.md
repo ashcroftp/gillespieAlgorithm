@@ -81,7 +81,7 @@ This should take the form:
 		```
 
 ## Compilation
-To comile the executable `gillespie`, simply run the `make` command.
+To compile the executable `gillespie`, simply run the `make` command.
 Basically, this runs the following command:
 ```
 g++ main.cpp ssa.cpp rng.cpp model.cpp
