@@ -16,7 +16,7 @@ void SSA::compute(unsigned runIndex)
   vector<double> a(MyModel.nreactions+1);
   unsigned mu;
   
-  while(x[0] > 0 && x[0] < MyModel.N)  // Loop over timesteps until fixation
+  while(MyModel.continue_sim(x,t) )  // Loop over timesteps until fixation
     {	        
       // Calculate propensity functions
       // Here a[nreactions] = \sum_i a[i]

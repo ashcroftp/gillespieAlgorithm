@@ -21,7 +21,21 @@ Whether we record just the final result, or the full timeseries is determined by
 
 * `model.h/cpp` contains information about the population and reaction dynamics.
 The `model.cpp` file should be modified for each project.
-There are *three* functions that need to be modified:
+There are *five* functions that need to be modified:
+	+ `set_parameters()': First we declare how many parameters, species, and reactions are present in our model.
+We then store all model parameters, such as reaction rates, population size, time limits, etc. in a single vector for easy access.
+This is asigned as follows:
+		```
+		// Define numbers of parameters, species and reactions
+		nparams = 1;
+		nspecies = 2;
+ 		nreactions = 2;
+
+		// Assign temp vector and fill in parameters
+		vector<double> params(nparams);
+		params[0] = 100; // N
+		```
+
 	+ `set_initial_condition()`: This function assigns the initial population values using the following line of code to assign two species with 50 individuals each:
 
 		```
@@ -45,16 +59,25 @@ This should take the form:
 		switch(index)
     			{
     				case 0 :
-      				return (double)x_[0] * (double)x_[1] / (double)N;
+      				return (double)x_[0] * (double)x_[1] / Params[0];
       				break;
 
     				case 1 :
-      				return (double)x_[0] * (double)x_[1] / (double)N;
+      				return (double)x_[0] * (double)x_[1] / Params[0];
       				break;
 
     				default :
       				return 0.0;
     			}
+		```
+
+	+ `continue_sim(x, t)`: This function determines the end-condition of our simulation. For example, if we stop the simulation once a species has reached fixation or extonction we have:
+		```
+		bool b(true);
+
+		if(x_[0] == 0 || x_[0] == Params[0]) b = false;
+  
+		return(b);
 		```
 
 ## Compilation

@@ -22,6 +22,6 @@ int main(int argc, char* argv[])
   cout << rng.get_seed() << endl;
   
   ssa.compute(0);
-
+  
   return 0;
 }

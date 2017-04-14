@@ -8,15 +8,31 @@ using namespace std;
 // Functions to be modified for each model
 //=========================================
 
+// Assign the model parameters to a single vector
+void Model::set_parameters()
+{
+  // Define numbers of parameters, species and reactions
+  nparams = 1;
+  nspecies = 2;
+  nreactions = 2;
+
+  // Assign temp vector and fill in parameters
+  vector<double> params(nparams);
+  params[0] = 100; // N
+  
+  // Assign
+  Params = params;
+}
+
 // Initial condition for each species
 void Model::set_initial_condition()
 {
   // Define
   vector<unsigned> x = {50, 50};
+  
   // Assign
   Initial_condition = x;
 }
-
 
 // Stoichiometry of each reaction
 // Each row of the matrix corresponds to a reaction, and each column is the species.
@@ -39,11 +55,11 @@ double Model::reaction_rates(unsigned& reaction_, vector<unsigned>& x_)
   switch(reaction_)
     {
     case 0 :
-      return (double)x_[0] * (double)x_[1] / (double)N;
+      return (double)x_[0] * (double)x_[1] / Params[0];
       break;
 
     case 1 :
-      return (double)x_[0] * (double)x_[1] / (double)N;
+      return (double)x_[0] * (double)x_[1] / Params[0];
       break;
 
     default :
@@ -51,11 +67,34 @@ double Model::reaction_rates(unsigned& reaction_, vector<unsigned>& x_)
     }
 }
 
+// Test used to determine if we continue simulating (true)
+// or stop the simulation (false) due to extinction of one
+// species or reaching the time limit
+bool Model::continue_sim(vector<unsigned>& x_, double& t)
+{
+  bool b(true);
+
+  if(x_[0] == 0 || x_[0] == Params[0]) b = false;
+  
+  return(b);
+}
 
 
 //=========================================
 // Access functions -- do not edit!
 //=========================================
+
+// Access parameter vector
+vector<double> Model::get_all_parameters()
+{
+  return(Params);
+}
+
+// Access single parameter entries
+double Model::get_parameter(unsigned index_)
+{
+  return(Params[index_]);
+}
 
 // Access initial condition
 vector<unsigned> Model::get_initial_condition()
