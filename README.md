@@ -81,10 +81,9 @@ This should take the form:
 		```
 
 ## Compilation
-For now compilation requires the following command:
-
+To comile the executable `gillespie`, simply run the `make` command.
+Basically, this runs the following command:
 ```
 g++ main.cpp ssa.cpp rng.cpp model.cpp
 ```
-
-One day I'll turn this into a makefile...
+It also includes the `make clean` option to tidy up the directory.

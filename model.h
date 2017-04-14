@@ -6,7 +6,6 @@
 //=========================================
 // Dependencies
 #include <vector>
-#include <iostream>
 //=========================================
 
 class Model

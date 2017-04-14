@@ -5,8 +5,6 @@
 #define __RNG_H_INCLUDED__ 
 //=========================================
 // Dependencies
-#include <iostream>  // remove?
-#include <ctime>
 #include <random>
 //=========================================
 
