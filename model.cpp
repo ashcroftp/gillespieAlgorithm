@@ -76,35 +76,5 @@ bool Model::continue_sim(vector<unsigned>& x_, double& t)
 
   if(x_[0] == 0 || x_[0] == Params[0]) b = false;
   
-  return(b);
-}
-
-
-//=========================================
-// Access functions -- do not edit!
-//=========================================
-
-// Access parameter vector
-vector<double> Model::get_all_parameters()
-{
-  return(Params);
-}
-
-// Access single parameter entries
-double Model::get_parameter(unsigned index_)
-{
-  return(Params[index_]);
-}
-
-// Access initial condition
-vector<unsigned> Model::get_initial_condition()
-{
-  return(Initial_condition);
-}
-
-
-// Access each stoichiometric vector
-vector<int> Model::get_stoichiometric_vector(unsigned& reaction_)
-{
-  return(Stoichiometric_matrix[reaction_]);
+  return b;
 }

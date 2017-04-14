@@ -31,8 +31,8 @@ class SSA
   //=========================================
   // Definitions of access functions
   //=========================================
-  RNG get_rng(){return(MyRNG);};
-  Model get_model(){return(MyModel);};
+  RNG get_rng(){return MyRNG;};
+  Model get_model(){return MyModel;};
 
 
   //=========================================
@@ -40,8 +40,7 @@ class SSA
   //=========================================
   void compute(unsigned runIndex_);
   std::vector<double> get_reaction_rates(std::vector<unsigned>& x_);
-  unsigned choose_reaction(std::vector<double>& rates_, double& rn_);
-  
+  unsigned choose_reaction(std::vector<double>& rates_, double& rn_); 
   std::vector<unsigned> update_population(unsigned& reaction_, std::vector<unsigned>& x_);
   
 };

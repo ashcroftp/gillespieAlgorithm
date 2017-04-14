@@ -31,6 +31,15 @@ class Model
   friend class SSA;
   
   //=========================================
+  // Definitions of access functions
+  //=========================================
+  std::vector<double> get_all_parameters(){return Params;};
+  double get_parameter(unsigned index_){return Params[index_]};
+  std::vector<unsigned> get_initial_condition(){return Initial_condition;};
+  std::vector<int> get_stoichiometric_vector(unsigned reaction_){return Stoichiometric_matrix[reaction_];};
+
+
+  //=========================================
   // Definitions of functions to be modified
   //=========================================
   void set_parameters();
@@ -38,14 +47,6 @@ class Model
   void set_stoichiometry();
   double reaction_rates(unsigned& reaction_, std::vector<unsigned>& x_);
   bool continue_sim(std::vector<unsigned>& x_, double& t);
-
-  //=========================================
-  // Definitions of access functions
-  //=========================================
-  std::vector<double> get_all_parameters();
-  double get_parameter(unsigned index_);
-  std::vector<unsigned> get_initial_condition();
-  std::vector<int> get_stoichiometric_vector(unsigned& reaction_);
-
+  
 };
 #endif 
