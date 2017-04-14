@@ -34,7 +34,7 @@ class Model
   // Definitions of access functions
   //=========================================
   std::vector<double> get_all_parameters(){return Params;};
-  double get_parameter(unsigned index_){return Params[index_]};
+  double get_parameter(unsigned index_){return Params[index_];};
   std::vector<unsigned> get_initial_condition(){return Initial_condition;};
   std::vector<int> get_stoichiometric_vector(unsigned reaction_){return Stoichiometric_matrix[reaction_];};
 

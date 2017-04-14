@@ -14,7 +14,7 @@ void SSA::compute(unsigned runIndex)
   // Declare variable used in algoritm
   double rn,tau;
   vector<double> a(MyModel.nreactions+1);
-  unsigned mu(0);
+  unsigned mu;
   
   while(MyModel.continue_sim(x,t) )  // Loop over timesteps until fixation
     {	        
@@ -62,7 +62,7 @@ vector<double> SSA::get_reaction_rates(vector<unsigned>& x_)
 // Determine which reaction has fired
 unsigned SSA::choose_reaction(vector<double>& rates_, double& rn_)
 {
-  unsigned mu;
+  unsigned mu(0);
   double sum = 0.0;  
   for(unsigned m = 0; m < MyModel.nreactions; ++m)
     {
