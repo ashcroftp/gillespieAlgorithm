@@ -5,7 +5,7 @@ CFLAGS = -Wall -c $(DEBUG)
 LFLAGS = -Wall $(DEBUG)
 
 gillespie : $(OBJS)
-	$(CC) $(LFLAGS) $(OBJS) -o gillespie
+	$(CC) $(LFLAGS) $(OBJS) -o gillespie.out
 
 main.o : main.cpp ssa.h
 	$(CC) $(CFLAGS) main.cpp
@@ -25,5 +25,5 @@ ssa.h : rng.h model.h
 
 
 clean :
-	\rm *.o *~ gillespie
+	\rm *.o *~ gillespie.out
 
