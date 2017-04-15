@@ -22,9 +22,10 @@ Whether we record just the final result, or the full timeseries is determined by
 * `model.h/cpp` contains information about the population and reaction dynamics.
 The `model.cpp` file should be modified for each project.
 There are *five* functions that need to be modified:
-	+ `set_parameters()': First we declare how many parameters, species, and reactions are present in our model.
+	+ `set_parameters()`: First we declare how many parameters, species, and reactions are present in our model.
 We then store all model parameters, such as reaction rates, population size, time limits, etc. in a single vector for easy access.
 This is asigned as follows:
+
 		```
 		// Define numbers of parameters, species and reactions
 		nparams = 1;
@@ -71,7 +72,8 @@ This should take the form:
     			}
 		```
 
-	+ `continue_sim(x, t)`: This function determines the end-condition of our simulation. For example, if we stop the simulation once a species has reached fixation or extonction we have:
+	+ `continue_sim(x, t)`: This function determines the end-condition of our simulation. For example, if we stop the simulation once a species has reached fixation or extinction we have:
+
 		```
 		bool b(true);
 
