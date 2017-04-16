@@ -17,16 +17,17 @@ class SSA
  private:
   RNG MyRNG;
   Model MyModel;
+  unsigned nspecies,nreactions;
   
  public:
   // Constructor (empty -- No RNG seed, so use default)
- SSA() : MyRNG(), MyModel() {};
+ SSA() : MyRNG(), MyModel() {nspecies=MyModel.get_nspecies(); nreactions=MyModel.get_nreactions();};
   // Constructor with specific seed
- SSA(int seed_) : MyRNG(seed_), MyModel() {};
+ SSA(int seed_) : MyRNG(seed_), MyModel() {nspecies=MyModel.get_nspecies(); nreactions=MyModel.get_nreactions();};
   // Constructor with specific model
- SSA(Model& model_) : MyRNG() {MyModel=model_;};
+ SSA(Model& model_) : MyRNG() {MyModel=model_; nspecies=MyModel.get_nspecies(); nreactions=MyModel.get_nreactions();};
   // Constructor with specific seed and model
- SSA(int seed_, Model& model_) : MyRNG(seed_) {MyModel=model_;};
+ SSA(int seed_, Model& model_) : MyRNG(seed_) {MyModel=model_; nspecies=MyModel.get_nspecies(); nreactions=MyModel.get_nreactions();};
 
   //=========================================
   // Definitions of access functions

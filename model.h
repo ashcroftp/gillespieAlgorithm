@@ -26,13 +26,12 @@ class Model
       set_initial_condition();
       set_stoichiometry();
     };
-
-  // Allow the SSA class to see Model private data
-  friend class SSA;
   
   //=========================================
   // Definitions of access functions
   //=========================================
+  unsigned get_nspecies(){return nspecies;};
+  unsigned get_nreactions(){return nreactions;};
   std::vector<double> get_all_parameters(){return Params;};
   double get_parameter(unsigned index_){return Params[index_];};
   std::vector<unsigned> get_initial_condition(){return Initial_condition;};

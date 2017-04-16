@@ -13,7 +13,7 @@ void SSA::compute(unsigned runIndex)
 
   // Declare variable used in algoritm
   double rn,tau;
-  vector<double> a(MyModel.nreactions+1);
+  vector<double> a(nreactions + 1);
   unsigned mu;
   
   while(MyModel.continue_sim(x,t) )  // Loop over timesteps until fixation
@@ -30,7 +30,7 @@ void SSA::compute(unsigned runIndex)
       x = update_population(mu, x);
 
       // Update time
-      tau = MyRNG.rand_exp(a[MyModel.nreactions]);
+      tau = MyRNG.rand_exp(a[nreactions]);
       t += tau;
       
     }// End of loop over timesteps
@@ -42,18 +42,18 @@ void SSA::compute(unsigned runIndex)
 // Evaluate propensity functions
 vector<double> SSA::get_reaction_rates(vector<unsigned>& x_)
 {
-  vector<double> rates(MyModel.nreactions + 1);
+  vector<double> rates(nreactions + 1);
   
-  for(unsigned i = 0; i < MyModel.nreactions; ++i)
+  for(unsigned i = 0; i < nreactions; ++i)
     {
       rates[i] = MyModel.reaction_rates(i, x_);
     }
   
   // Sum all propensities to return a[nreactions]
-  rates[MyModel.nreactions] = 0.0;
-  for(unsigned i = 0; i < MyModel.nreactions; ++i)
+  rates[nreactions] = 0.0;
+  for(unsigned i = 0; i < nreactions; ++i)
     {
-      rates[MyModel.nreactions] += rates[i];
+      rates[nreactions] += rates[i];
     }
   
   return rates;
@@ -64,10 +64,10 @@ unsigned SSA::choose_reaction(vector<double>& rates_, double& rn_)
 {
   unsigned mu(0);
   double sum = 0.0;  
-  for(unsigned m = 0; m < MyModel.nreactions; ++m)
+  for(unsigned m = 0; m < nreactions; ++m)
     {
       sum += rates_[m];
-      if(sum > rates_[MyModel.nreactions] * rn_)
+      if(sum > rates_[nreactions] * rn_)
 	{
 	  mu = m;
 	  break;
@@ -80,11 +80,11 @@ unsigned SSA::choose_reaction(vector<double>& rates_, double& rn_)
 // Update population based on reaction mu
 vector<unsigned> SSA::update_population(unsigned& reaction_, vector<unsigned>& x_)
 {
-  vector<unsigned> x_new(MyModel.nspecies);
+  vector<unsigned> x_new(nspecies);
   
   vector<int> delta_x = MyModel.get_stoichiometric_vector(reaction_);
 
-  for(unsigned i = 0; i < MyModel.nspecies; ++i)
+  for(unsigned i = 0; i < nspecies; ++i)
     {
       x_new[i] = x_[i] + delta_x[i];
     }
