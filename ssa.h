@@ -25,9 +25,9 @@ class SSA
   // Constructor with specific seed
  SSA(int seed_) : MyRNG(seed_), MyModel() {nspecies=MyModel.get_nspecies(); nreactions=MyModel.get_nreactions();};
   // Constructor with specific model
- SSA(Model& model_) : MyRNG() {MyModel=model_; nspecies=MyModel.get_nspecies(); nreactions=MyModel.get_nreactions();};
+ SSA(Model& model_) : MyRNG(), MyModel(model_) {nspecies=MyModel.get_nspecies(); nreactions=MyModel.get_nreactions();};
   // Constructor with specific seed and model
- SSA(int seed_, Model& model_) : MyRNG(seed_) {MyModel=model_; nspecies=MyModel.get_nspecies(); nreactions=MyModel.get_nreactions();};
+ SSA(int seed_, Model& model_) : MyRNG(seed_), MyModel(model_) {nspecies=MyModel.get_nspecies(); nreactions=MyModel.get_nreactions();};
 
   //=========================================
   // Definitions of access functions
