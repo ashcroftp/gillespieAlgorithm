@@ -8,9 +8,12 @@ using namespace std;
 void SSA::compute(unsigned runIndex)
 {  
   // Initialise the variables and time
-  vector<unsigned> x = MyModel.get_initial_condition(); 
   double t = 0.0;
+  vector<unsigned> x = MyModel.get_initial_condition(); 
 
+  // Store
+  if(Output_timeseries) MyOutput.initialise_timeseries(t,x);
+  
   // Declare variable used in algoritm
   double rn,tau;
   vector<double> a(nreactions + 1);
@@ -32,10 +35,16 @@ void SSA::compute(unsigned runIndex)
       // Update time
       tau = MyRNG.rand_exp(a[nreactions]);
       t += tau;
-      
+
+      // Store
+      if(Output_timeseries) MyOutput.store_timeseries(t,x);
     }// End of loop over timesteps
 
+  if(Output_final_state) MyOutput.store_final_state(t,x);
+  
   cout << t << "\t" << x[0] << "\t" << x[1] << endl;
+
+  MyOutput.write_to_file();
 }
 
 

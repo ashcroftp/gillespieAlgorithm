@@ -16,9 +16,9 @@ The default is to use the Mersenne Twister *mt19937* generator, which is include
 Note that this requires `c++11`, and compilation may require an explicit `g++ -std=c++11 ...`.
 Again these files should **not** be modified per-project, but may be edited if different random number generators/functions are required.
 
-* `outputData.h/cpp` contains different output functions.
+* `output.h/cpp` contains different output functions.
 Whether we record just the final result, or the full timeseries is determined by this file.
-**Yet to be created**
+**Still need to add the file-writing functions, but the rest works**
 
 * `model.h/cpp` contains information about the population and reaction dynamics.
 In particular, its members include a vector for parameters, the stoichiometric matrix, and the reaction rate functions.
@@ -89,12 +89,17 @@ This should take the form:
 	return(b);
 	```
 
+## Further options
+Further options can be specified in the `main()` function in `main.cpp`.
+These include options to the `Model`, `RNG`, and `Output` classes.
+**Details to come...**
+
 ## Compilation
 To compile the executable `gillespie`, simply run the `make` command.
 Basically, this runs the following command:
 
 ```
-g++ main.cpp ssa.cpp rng.cpp model.cpp
+g++ main.cpp ssa.cpp rng.cpp model.cpp output.cpp
 ```
 
 It also includes the `make clean` option to tidy up the directory.

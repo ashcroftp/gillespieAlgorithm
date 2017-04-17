@@ -1,13 +1,19 @@
 // main.cpp
-
-#include <iostream>
-
+//=========================================
+// Dependencies
+#include "model.h"
+#include "rng.h"
+#include "output.h"
 #include "ssa.h"
 
+
+#include <iostream>
+//=========================================
 using namespace std;
 
-
-// Assign the model parameters to a single vector
+//=========================================
+// Model functions to be modified
+//=========================================
 void Model::set_parameters()
 {
   // Define numbers of parameters, species and reactions
@@ -23,20 +29,21 @@ void Model::set_parameters()
   Params = params;
 }
 
-// Initial condition for each species
+
 void Model::set_initial_condition()
 {
-  // Define
+  // Define the initial number of individuals of each species
   vector<unsigned> x = {50, 50};
   
   // Assign
   Initial_condition = x;
 }
 
-// Stoichiometry of each reaction
-// Each row of the matrix corresponds to a reaction, and each column is the species.
+
 void Model::set_stoichiometry()
 {
+  // Stoichiometry of each reaction
+  // Each row of the matrix corresponds to a reaction, and each column is the species.
   vector<vector<int> > stoich_mat(nreactions);
 
   stoich_mat[0] = {+1, -1};
@@ -47,10 +54,10 @@ void Model::set_stoichiometry()
 }
 
 
-// Reaction rates (as a function of x_) for each reaction.
-// Reactions should be ordered as in the above stoichiometrix matrix
 double Model::reaction_rates(unsigned& reaction_, vector<unsigned>& x_)
 {
+  // Reaction rates (as a function of x_) for each reaction.
+  // Should be ordered as in the above stoichiometrix matrix
   switch(reaction_)
     {
     case 0 :
@@ -66,24 +73,38 @@ double Model::reaction_rates(unsigned& reaction_, vector<unsigned>& x_)
     }
 }
 
-// Test used to determine if we continue simulating (true)
-// or stop the simulation (false) due to extinction of one
-// species or reaching the time limit
+
 bool Model::continue_sim(vector<unsigned>& x_, double& t)
 {
+  // Test used to determine if we continue simulating (true)
+  // or stop the simulation (false) due to extinction of one
+  // species or reaching the time limit
   bool b(true);
 
   if(x_[0] == 0 || x_[0] == Params[0]) b = false;
   
   return b;
 }
-
+// End of model function definitions
+//=========================================
+//=========================================
 
 
 // Main function containing the workflow
 int main(int argc, char* argv[])
 {
-  SSA ssa;
+  // Special model or default?
+  Model model;
+
+  // Special random number generator or default?
+  RNG rng;
+ 
+  // Special output or default?
+  bool output_final_state(true);
+  bool output_timeseries(false);
+  Output output(output_final_state, output_timeseries);
+  
+  SSA ssa(model,rng,output);
   ssa.compute(0);
   
   return 0;

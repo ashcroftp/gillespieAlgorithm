@@ -5,8 +5,9 @@
 #define __SSA_H_INCLUDED__ 
 //=========================================
 // Dependencies
-#include "rng.h"
 #include "model.h"
+#include "rng.h"
+#include "output.h"
 
 #include <iostream>  // remove?
 #include <vector>
@@ -15,25 +16,34 @@
 class SSA
 {
  private:
-  RNG MyRNG;
   Model MyModel;
+  RNG MyRNG;
+  Output MyOutput;
+  
   unsigned nspecies,nreactions;
+  bool Output_final_state,Output_timeseries;
   
  public:
-  // Constructor (empty -- No RNG seed, so use default)
- SSA() : MyRNG(), MyModel() {nspecies=MyModel.get_nspecies(); nreactions=MyModel.get_nreactions();};
-  // Constructor with specific seed
- SSA(int seed_) : MyRNG(seed_), MyModel() {nspecies=MyModel.get_nspecies(); nreactions=MyModel.get_nreactions();};
-  // Constructor with specific model
- SSA(Model& model_) : MyRNG(), MyModel(model_) {nspecies=MyModel.get_nspecies(); nreactions=MyModel.get_nreactions();};
-  // Constructor with specific seed and model
- SSA(int seed_, Model& model_) : MyRNG(seed_), MyModel(model_) {nspecies=MyModel.get_nspecies(); nreactions=MyModel.get_nreactions();};
+  // Constructor (empty -- use default members)
+ SSA() : MyModel(), MyRNG(), MyOutput() {varInit();};
+  // Constructor (specified members)
+ SSA(Model& model_, RNG& rng_, Output& output_) : MyModel(model_), MyRNG(rng_), MyOutput(output_) {varInit();};
 
+  // Initialise variables
+  void varInit()
+    {
+      nspecies = MyModel.get_nspecies();
+      nreactions = MyModel.get_nreactions();
+      Output_final_state = MyOutput.get_output_final_state();
+      Output_timeseries = MyOutput.get_output_timeseries();
+    };
+  
   //=========================================
   // Definitions of access functions
   //=========================================
   RNG get_rng(){return MyRNG;};
   Model get_model(){return MyModel;};
+  Output get_output(){return MyOutput;};
 
 
   //=========================================
