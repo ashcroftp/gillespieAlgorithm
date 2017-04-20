@@ -4,8 +4,26 @@
 
 using namespace std;
 
+// Loop over number of runs and execute the algorithm
+void SSA::run()
+{
+  // Output parameters to file
+  MyOutput.write_parameters();
+  
+  unsigned i(0);
+  while(i < nruns)
+    {
+      // Execute the algorithm
+      compute();
+      
+      MyOutput.write_results();
+      
+      ++i;
+    }
+}
+
 // Execute the SSA algorithm, using index for something...
-void SSA::compute(unsigned runIndex)
+void SSA::compute()
 {  
   // Initialise the variables and time
   double t = 0.0;
@@ -41,10 +59,6 @@ void SSA::compute(unsigned runIndex)
     }// End of loop over timesteps
 
   if(Output_final_state) MyOutput.store_final_state(t,x);
-  
-  cout << t << "\t" << x[0] << "\t" << x[1] << endl;
-
-  MyOutput.write_to_file();
 }
 
 

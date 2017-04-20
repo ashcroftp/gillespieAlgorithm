@@ -35,8 +35,26 @@ void Output::store_timeseries(double& t_, vector<unsigned>& x_)
   Timeseries_state.push_back(x_);
 }
 
-// Write to file
-void Output::write_to_file()
+// Write parameters to first line of file
+void Output::write_parameters()
+{
+  if(Output_final_state)
+    {
+      // Output parameter vector
+      for(unsigned i = 0; i < Params.size(); ++i) cout << Params[i] << "\t";
+      cout << endl;
+    }
+ 
+  if(Output_timeseries)
+    {
+      // Output parameter vector
+      for(unsigned i = 0; i < Params.size(); ++i) cout << Params[i] << "\t";
+      cout << endl;
+    }
+}
+
+// Write results to file
+void Output::write_results()
 {
   if(Output_final_state) cout << Final_time << endl;
 

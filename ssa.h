@@ -19,15 +19,17 @@ class SSA
   Model MyModel;
   RNG MyRNG;
   Output MyOutput;
+
+  unsigned nruns;
   
   unsigned nspecies,nreactions;
   bool Output_final_state,Output_timeseries;
   
  public:
   // Constructor (empty -- use default members)
- SSA() : MyModel(), MyRNG(), MyOutput() {varInit();};
+ SSA() : MyModel(), MyRNG(), MyOutput(), nruns(1) {varInit();};
   // Constructor (specified members)
- SSA(Model& model_, RNG& rng_, Output& output_) : MyModel(model_), MyRNG(rng_), MyOutput(output_) {varInit();};
+ SSA(Model& model_, RNG& rng_, Output& output_, unsigned& nruns_) : MyModel(model_), MyRNG(rng_), MyOutput(output_), nruns(nruns_) {varInit();};
 
   // Initialise variables
   void varInit()
@@ -36,6 +38,7 @@ class SSA
       nreactions = MyModel.get_nreactions();
       Output_final_state = MyOutput.get_output_final_state();
       Output_timeseries = MyOutput.get_output_timeseries();
+      MyOutput.set_model_params(MyModel.get_all_parameters());
     };
   
   //=========================================
@@ -49,7 +52,8 @@ class SSA
   //=========================================
   // Definitions of algorithm functions
   //=========================================
-  void compute(unsigned runIndex_);
+  void run();
+  void compute();
   std::vector<double> get_reaction_rates(std::vector<unsigned>& x_);
   unsigned choose_reaction(std::vector<double>& rates_, double& rn_); 
   std::vector<unsigned> update_population(unsigned& reaction_, std::vector<unsigned>& x_);

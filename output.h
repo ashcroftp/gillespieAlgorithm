@@ -15,6 +15,10 @@ class Output
 {
  private:
   bool Output_final_state,Output_timeseries;
+  char Filename_final_state[99],Filename_timeseries[99];
+  //std::ofstream File_output;
+  
+  std::vector<double> Params;
   
   double Final_time;
   std::vector<unsigned> Final_state; 
@@ -23,7 +27,7 @@ class Output
   std::vector<std::vector<unsigned> > Timeseries_state;
   
  public:
-  // Constructor -- default is to output final state
+  // Constructor -- default is to output final state only
  Output() : Output_final_state(true), Output_timeseries(false) {};
   // Constructor -- outpur arguments
  Output(bool& Output_final_state_, bool& Output_timeseries_) : Output_final_state(Output_final_state_), Output_timeseries(Output_timeseries_) {};
@@ -33,6 +37,7 @@ class Output
   //=========================================
   bool get_output_final_state(){return Output_final_state;};
   bool get_output_timeseries(){return Output_timeseries;};
+  void set_model_params(std::vector<double> Params_){Params = Params_;};
   
   //=========================================
   // Definitions of output functions
@@ -40,7 +45,8 @@ class Output
   void store_final_state(double& t_, std::vector<unsigned>& x_);
   void initialise_timeseries(double& t_, std::vector<unsigned>& x_);
   void store_timeseries(double& t_, std::vector<unsigned>& x_);
-  void write_to_file();
+  void write_parameters();
+  void write_results();
   
 };
 
