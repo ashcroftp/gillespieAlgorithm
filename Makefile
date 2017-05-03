@@ -1,32 +1,26 @@
-OBJS = main.o ssa.o rng.o model.o output.o
-CC = g++ -std=c++11
-DEBUG = -g
-CFLAGS = -Wall -c $(DEBUG)
-LFLAGS = -Wall $(DEBUG)
+CC := g++ -std=c++11 # This is the main compiler
+SRCDIR := src
+INCDIR := include
+BUILDDIR := build
+TARGET := bin/gillespie.out
 
-gillespie : $(OBJS)
-	$(CC) $(LFLAGS) $(OBJS) -o gillespie.out
+SRCEXT := cpp
+SOURCES := $(wildcard $(SRCDIR)/*.$(SRCEXT))
+OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
+INC := -I $(INCDIR)
+DEBUG := -g
+CFLAGS := -Wall -c $(DEBUG)
+LFLAGS := -Wall $(DEBUG)
 
-main.o : main.cpp model.h rng.h output.h ssa.h
-	$(CC) $(CFLAGS) main.cpp
+$(TARGET): $(OBJECTS)
+	@echo "--Linking--"
+	$(CC) $^ -o $(TARGET)
 
-ssa.o : ssa.h ssa.cpp
-	$(CC) $(CFLAGS) ssa.cpp
+$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
+	@mkdir -p $(@D)
+	@echo "--Compiling--"
+	$(CC) $(CFLAGS) $(INC) $< -o $@
 
-rng.o : rng.h rng.cpp
-	$(CC) $(CFLAGS) rng.cpp
-
-model.o : model.h model.cpp
-	$(CC) $(CFLAGS) model.cpp
-
-output.o : output.h output.cpp
-	$(CC) $(CFLAGS) output.cpp
-
-ssa.h : model.h rng.h output.h
-
-
-
-
-clean :
-	\rm *.o *~ gillespie.out
-
+clean:
+	@echo "--Cleaning--"; 
+	$(RM) $(BUILDDIR)/*.o *~ $(SRCDIR)/*~ $(INCDIR)/*~ $(TARGET)
