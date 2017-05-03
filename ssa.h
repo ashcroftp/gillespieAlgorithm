@@ -33,13 +33,13 @@ class SSA
 
   // Initialise variables
   void varInit()
-    {
-      nspecies = MyModel.get_nspecies();
-      nreactions = MyModel.get_nreactions();
-      Output_final_state = MyOutput.get_output_final_state();
-      Output_timeseries = MyOutput.get_output_timeseries();
-      MyOutput.set_model_params(MyModel.get_all_parameters());
-    };
+  {
+    nspecies = MyModel.get_nspecies();
+    nreactions = MyModel.get_nreactions();
+    Output_final_state = MyOutput.get_output_final_state();
+    Output_timeseries = MyOutput.get_output_timeseries();
+    MyOutput.set_model_params(MyModel.get_all_parameters());
+  };
   
   //=========================================
   // Definitions of access functions

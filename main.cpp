@@ -103,7 +103,7 @@ int main(int argc, char* argv[])
   // Special random number generator or default?
   RNG rng;
  
-  // Special output or default?
+  // Output final state or timeseries or both?
   // bool output_final_state(true);
   // bool output_timeseries(false);
   // Output output(output_final_state, output_timeseries);

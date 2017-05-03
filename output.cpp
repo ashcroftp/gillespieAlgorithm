@@ -41,22 +41,57 @@ void Output::write_parameters()
   if(Output_final_state)
     {
       // Output parameter vector
-      for(unsigned i = 0; i < Params.size(); ++i) cout << Params[i] << "\t";
-      cout << endl;
+      ofstream output;
+      output.open(Filename_final_state);
+      for(unsigned i = 0; i < Params.size(); ++i) output << Params[i] << "\t";
+      output << endl;
+      output.close();
     }
  
   if(Output_timeseries)
     {
       // Output parameter vector
-      for(unsigned i = 0; i < Params.size(); ++i) cout << Params[i] << "\t";
-      cout << endl;
+      ofstream output;
+      output.open(Filename_timeseries);
+      for(unsigned i = 0; i < Params.size(); ++i) output << Params[i] << "\t";
+      output << endl;
+      output.close();
     }
 }
 
 // Write results to file
 void Output::write_results()
 {
-  if(Output_final_state) cout << Final_time << endl;
+  if(Output_final_state)
+    {
+      ofstream output;
+      output.open(Filename_final_state, ios::app);
 
-  if(Output_timeseries) cout << Timeseries_time.back() << endl;
+      // Output time and state(s) to one line
+      output << Final_time;
+      for(unsigned i = 0; i < Final_state.size(); ++i) output << "\t" << Final_state[i];
+      output << endl;
+      
+      output.close();
+    }
+
+  if(Output_timeseries)
+    {
+      ofstream output;
+      output.open(Filename_timeseries, ios::app);
+
+      // Output time vector to one line
+      for(unsigned j = 0; j < Timeseries_time.size(); ++j) output << Timeseries_time[j] << "\t";
+      output << endl;
+
+      // Output state of one variable over time to each line
+      for(unsigned i = 0; i < Timeseries_state[0].size(); ++i)
+	{
+	  for(unsigned j = 0; j < Timeseries_state.size(); ++j) output << Timeseries_state[j][i] << "\t";
+	  output << endl;
+	}
+      
+      output.close();
+    }
+  
 }

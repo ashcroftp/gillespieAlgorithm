@@ -16,7 +16,6 @@ class Output
  private:
   bool Output_final_state,Output_timeseries;
   char Filename_final_state[99],Filename_timeseries[99];
-  //std::ofstream File_output;
   
   std::vector<double> Params;
   
@@ -28,10 +27,17 @@ class Output
   
  public:
   // Constructor -- default is to output final state only
- Output() : Output_final_state(true), Output_timeseries(false) {};
-  // Constructor -- outpur arguments
- Output(bool& Output_final_state_, bool& Output_timeseries_) : Output_final_state(Output_final_state_), Output_timeseries(Output_timeseries_) {};
+ Output() : Output_final_state(true), Output_timeseries(false) {nameFiles();};
+  // Constructor -- specified outputs
+ Output(bool& Output_final_state_, bool& Output_timeseries_) : Output_final_state(Output_final_state_), Output_timeseries(Output_timeseries_) {nameFiles();};
 
+  // Name the output files
+  void nameFiles()
+  {
+    sprintf(Filename_final_state, "final.dat");
+    sprintf(Filename_timeseries, "timeseries.dat");
+  }
+  
   //=========================================
   // Definitions of access functions
   //=========================================
