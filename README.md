@@ -18,7 +18,8 @@ Again these files should **not** be modified per-project, but may be edited if d
 
 * `output.h/cpp` contains different output functions.
 Whether we record just the final result, or the full timeseries is determined by this file.
-**Still need to add the file-writing functions, but the rest works**
+Filenames are currently hard-coded in here.
+Generally should **not** be edited!
 
 * `model.h/cpp` contains information about the population and reaction dynamics.
 In particular, its members include a vector for parameters, the stoichiometric matrix, and the reaction rate functions.
@@ -95,11 +96,6 @@ These include options to the `Model`, `RNG`, and `Output` classes.
 **Details to come...**
 
 ## Compilation
-To compile the executable `gillespie`, simply run the `make` command.
-Basically, this runs the following command:
-
-```
-g++ main.cpp ssa.cpp rng.cpp model.cpp output.cpp
-```
+To compile the executable `bin/gillespie.out`, simply run the `make` command.
 
 It also includes the `make clean` option to tidy up the directory.
