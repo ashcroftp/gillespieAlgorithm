@@ -1,6 +1,6 @@
 #!/bin/bash
 
-N=100000
+N=1000000
 
 echo
 echo Timing for $N runs
@@ -14,3 +14,6 @@ echo
 echo lessSimpleMoran.cpp:
 g++ lessSimpleMoran.cpp
 time ./a.out $N
+
+echo gillespie.out:
+time ./gillespie.out $N
