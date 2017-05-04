@@ -14,6 +14,7 @@
 class Output
 {
  private:
+  unsigned ParamIndex,SimIndex;
   bool Output_final_state,Output_timeseries;
   char Filename_final_state[99],Filename_timeseries[99];
   
@@ -27,9 +28,13 @@ class Output
   
  public:
   // Constructor -- default is to output final state only
- Output() : Output_final_state(true), Output_timeseries(false) {nameFiles();};
-  // Constructor -- specified outputs
- Output(bool& Output_final_state_, bool& Output_timeseries_) : Output_final_state(Output_final_state_), Output_timeseries(Output_timeseries_) {nameFiles();};
+ Output() : ParamIndex(0), SimIndex(0), Output_final_state(true), Output_timeseries(false) {nameFiles();};
+  // Constructor -- specified file labels, default output
+ Output(unsigned& ParamIndex_, unsigned& SimIndex_) : ParamIndex(ParamIndex_), SimIndex(SimIndex_), Output_final_state(true), Output_timeseries(false) {nameFiles();};
+  // Constructor -- default file labels, specified outputs
+ Output(bool& Output_final_state_, bool& Output_timeseries_) : ParamIndex(0), SimIndex(0), Output_final_state(Output_final_state_), Output_timeseries(Output_timeseries_) {nameFiles();};
+  // Constructor -- specified file labels, specified outputs
+ Output(unsigned& ParamIndex_, unsigned& SimIndex_, bool& Output_final_state_, bool& Output_timeseries_) : ParamIndex(ParamIndex_), SimIndex(SimIndex_), Output_final_state(Output_final_state_), Output_timeseries(Output_timeseries_) {nameFiles();};
 
   // Name the output files
   void nameFiles()

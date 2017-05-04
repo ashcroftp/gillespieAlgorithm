@@ -93,12 +93,14 @@ bool Model::continue_sim(vector<unsigned>& x_, double& t)
 // Main function containing the workflow
 int main(int argc, char* argv[])
 {
-  unsigned nruns(1);
+  unsigned nruns(1), paramIndex(0), simIndex(0);
   if(argc > 1) nruns = atoi(argv[1]);
+  if(argc > 2) paramIndex = atoi(argv[2]);
+  if(argc > 3) simIndex = atoi(argv[3]);
 
   
   // Special model or default?
-  Model model;
+  Model model(paramIndex);
 
   // Special random number generator or default?
   RNG rng;
@@ -107,7 +109,8 @@ int main(int argc, char* argv[])
   // bool output_final_state(true);
   // bool output_timeseries(false);
   // Output output(output_final_state, output_timeseries);
-  Output output;
+  Output output(paramIndex, simIndex);
+  //Output output;
   
   SSA ssa(model,rng,output,nruns);
   ssa.run();

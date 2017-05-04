@@ -11,7 +11,7 @@
 class Model
 {
  private:
-  int Bar;
+  unsigned ParamIndex;
   unsigned nparams,nspecies,nreactions;
 
   std::vector<double> Params;
@@ -20,12 +20,17 @@ class Model
   
  public:
   // Constructor
- Model() : Bar(0)
-    {
-      set_parameters();
-      set_initial_condition();
-      set_stoichiometry();
-    };
+ Model() : ParamIndex(0) {modelInit();};
+  // Constructor with paramIndex
+ Model(unsigned& ParamIndex_) : ParamIndex(ParamIndex_) {modelInit();};
+  
+  // initialiser function
+  void modelInit()
+  {
+    set_parameters();
+    set_initial_condition();
+    set_stoichiometry();
+  };
   
   //=========================================
   // Definitions of access functions
