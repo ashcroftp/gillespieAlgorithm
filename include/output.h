@@ -36,11 +36,12 @@ class Output
   // Constructor -- specified file labels, specified outputs
  Output(unsigned& ParamIndex_, unsigned& SimIndex_, bool& Output_final_state_, bool& Output_timeseries_) : ParamIndex(ParamIndex_), SimIndex(SimIndex_), Output_final_state(Output_final_state_), Output_timeseries(Output_timeseries_) {nameFiles();};
 
+  
   // Name the output files
   void nameFiles()
   {
-    sprintf(Filename_final_state, "final.dat");
-    sprintf(Filename_timeseries, "timeseries.dat");
+    sprintf(Filename_final_state, "final_%03i_%03i.dat", ParamIndex, SimIndex);
+    sprintf(Filename_timeseries, "timeseries_%03i_%03i.dat", ParamIndex, SimIndex);
   }
   
   //=========================================
