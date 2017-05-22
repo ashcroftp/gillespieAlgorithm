@@ -51,6 +51,10 @@ class Model
   void set_stoichiometry();
   double reaction_rates(unsigned& reaction_, std::vector<unsigned>& x_);
   bool continue_sim(std::vector<unsigned>& x_, double& t);
+
+  //=========================================
+  // Problem specific functions
+  //=========================================
   
 };
 #endif 

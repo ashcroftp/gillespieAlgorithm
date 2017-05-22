@@ -95,6 +95,10 @@ Further options can be specified in the `main()` function in `main.cpp`.
 These include options to the `Model`, `RNG`, and `Output` classes.
 **Details to come...**
 
+Also, I have introduced a section in `model.h` that allows some additional functions to be defined.
+These can be, for example, sigmoid functions or payoff defintions.
+The actual function body should be edited in `main.cpp`.
+
 ## Compilation
 To compile the executable `bin/gillespie.out`, simply run the `make` command.
 
